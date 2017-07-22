@@ -56,3 +56,17 @@ A plugin handles:
 ## Documentation
 
 See the [GitHub Wiki](https://github.com/shotgunsoftware/shotgunEvents/wiki).
+
+## Using Docker
+
+This is a first draft at packaging up the daemon with docker.
+
+Right now you need to edit the `src/shotgunEventDaemon.conf` file and enter your values. This file will be copied to the image during the Docker build process. Further work would be needed to generate this config more flexibly. Be weary that some values from the config should not be edited (like the plugin and log locations) as these will be mapped from the container to your host. Look for notes to this effect in the `.conf` file.
+
+The general steps to get you going are as follows:
+
+- Clone this repository to your local computer
+- Edit your `.conf` file in place
+- Change directory to the top level of the the Github clone
+- Build your docker image with ```docker build -t shotgun-events .```
+- Run your daemon with ```docker run -d --restart unless-stopped --name="shotgun-events" -v `pwd`/logs:/var/log/shotgunEventDaemon -v `pwd`/plugins:/root/shotgunEventDaemon/plugins shotgun-events```
