@@ -70,3 +70,5 @@ The general steps to get you going are as follows:
 - Change directory to the top level of the the Github clone
 - Build your docker image with ```docker build -t shotgun-events .```
 - Run your daemon with ```docker run -d --restart unless-stopped --name="shotgun-events" -v `pwd`/logs:/var/log/shotgunEventDaemon -v `pwd`/plugins:/root/shotgunEventDaemon/plugins shotgun-events```
+
+The `logArgs.py` plugin comes pre-installed in the plugin directory. Don't forget to generate a script key for the plugin and enter that information in the `reg.registerCallback` call for proper authentication of the plugin to your site.
