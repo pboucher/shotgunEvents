@@ -1,31 +1,17 @@
-"""
-For detailed information please see
+# Copyright 2018 Autodesk, Inc.  All rights reserved.
+#
+# Use of this software is subject to the terms of the Autodesk license agreement
+# provided at the time of installation or download, or which otherwise accompanies
+# this software in either electronic or hard copy form.
+#
 
-http://shotgunsoftware.github.com/shotgunEvents/api.html
+# See docs folder for detailed usage info.
 
-
-Object based shared state
--------------------------
-
-This example aims to show that you can store state in callable object instances.
-
-The shared state stores two counters one (sequential) will be incremented
-sequentially by each callback and will keep incrementing across event ids.
-
-The second counter (rotating) will be incremented by each successive callback
-but will be reset at each new event.
-
-
-Try me
-------
-
-To try the plugin, make sure you copy it into a path mentioned in your .conf's
-"paths" ([plugin] section) and change $DEMO_SCRIPT_NAME$ and $DEMO_API_KEY$ for
-sane values.
-"""
+import os
 
 
 class Callback(object):
+
     def __init__(self, state, rotate=False):
         self.rotate = rotate
         self.state = state
@@ -40,14 +26,20 @@ class Callback(object):
         self.state['rotating'] += 1
 
         # Log the counters so we can actually see something.
-        logger.info('Sequential #%d - Rotating #%d', self.state['sequential'], self.state['rotating'])
+        logger.info(
+            'Sequential #%d - Rotating #%d',
+            self.state['sequential'],
+            self.state['rotating'],
+        )
 
 
 def registerCallbacks(reg):
-    """Register all necessary or appropriate callbacks for this plugin."""
+    """
+    Register all necessary or appropriate callbacks for this plugin.
+    """
 
-    scriptName = '$DEMO_SCRIPT_NAME$'
-    scriptKey = '$DEMO_API_KEY$'
+    scriptName = os.environ["SGDAEMON_SHAREDSTATEC_NAME"]
+    scriptKey = os.environ["SGDAEMON_SHAREDSTATEC_KEY"]
 
     # Prepare the shared state object
     _state = {

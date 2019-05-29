@@ -1,36 +1,22 @@
-"""
-For detailed information please see
+# Copyright 2018 Autodesk, Inc.  All rights reserved.
+#
+# Use of this software is subject to the terms of the Autodesk license agreement
+# provided at the time of installation or download, or which otherwise accompanies
+# this software in either electronic or hard copy form.
+#
 
-http://shotgunsoftware.github.com/shotgunEvents/api.html
+# See docs folder for detailed usage info.
 
-
-Args based shared state
------------------------
-
-This plugin demoes how three callbacks can share state through the args argument
-to registerCallback.
-
-The shared state stores two counters one (sequential) will be incremented
-sequentially by each callback and will keep incrementing across event ids.
-
-The second counter (rotating) will be incremented by each successive callback
-but will be reset at each new event.
-
-
-Try me
-------
-
-To try the plugin, make sure you copy it into a path mentioned in your .conf's
-"paths" ([plugin] section) and change $DEMO_SCRIPT_NAME$ and $DEMO_API_KEY$ for
-sane values.
-"""
+import os
 
 
 def registerCallbacks(reg):
-    """Register all necessary or appropriate callbacks for this plugin."""
+    """
+    Register all necessary or appropriate callbacks for this plugin.
+    """
 
-    scriptName = '$DEMO_SCRIPT_NAME$'
-    scriptKey = '$DEMO_API_KEY$'
+    scriptName = os.environ["SGDAEMON_SHAREDSTATEB_NAME"]
+    scriptKey = os.environ["SGDAEMON_SHAREDSTATEB_KEY"]
 
     # Prepare the shared state object
     _state = {
@@ -46,6 +32,13 @@ def registerCallbacks(reg):
 
 
 def callbackA(sg, logger, event, args):
+    """
+    :param sg: Shotgun API handle.
+    :param logger: Logger instance.
+    :param event: A Shotgun EventLogEntry entity dictionary.
+    :param args: Any additional misc arguments passed through this plugin.
+    """
+
     # We know callbackA will be called first because we registered it first.
     # As the first thing to run on each event, we can reinizialize the rotating
     # counter.
