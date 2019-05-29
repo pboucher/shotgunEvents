@@ -5,7 +5,7 @@ MAINTAINER Patrick Boucher <pboucher@patrickboucher.com>
 RUN yum upgrade -y && yum install -y git && yum clean all
 
 # Go get the Shotgun API
-RUN git clone https://github.com/shotgunsoftware/python-api.git ~/repositories/python-api && cd ~/repositories/python-api && git checkout v3.0.33
+RUN git clone https://github.com/shotgunsoftware/python-api.git ~/repositories/python-api && cd ~/repositories/python-api && git checkout v3.0.40
 ENV PYTHONPATH="/root/repositories/python-api"
 
 # Copy over the necessary files into the container
